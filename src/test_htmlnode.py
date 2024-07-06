@@ -1,6 +1,6 @@
 import unittest
 
-from HTMLNode import HTMLNode, LeafNode
+from HTMLNode import HTMLNode, LeafNode, ParentNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_eq_allNone(self):
@@ -30,5 +30,63 @@ class TestHTMLNode(unittest.TestCase):
         node = LeafNode(None, "Hello, world!")
         self.assertEqual(node.to_html(), "Hello, world!")
 
+    def test_to_html_many_children(self):
+        node = ParentNode(
+        "p",
+            [
+            LeafNode("b", "Bold text"),
+            LeafNode(None, "Normal text"),
+            LeafNode("i", "italic text"),
+            LeafNode(None, "Normal text"),
+            ],
+        )
+        self.assertEqual(node.to_html(), "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>")
+    
+    def test_headings(self):
+        node = ParentNode(
+            "h2",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        self.assertEqual(
+            node.to_html(),
+            "<h2><b>Bold text</b>Normal text<i>italic text</i>Normal text</h2>",
+        )
+    
+    def test_nested_to_html(self):
+        node1 = ParentNode(
+            "h2",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        node2 = ParentNode(
+            "p",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        test_node = ParentNode(
+            "h3",
+            [
+                node1,
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+                node2,
+            ],
+        )
+        self.assertEqual(test_node.to_html(), "<h3><h2><b>Bold text</b>Normal text<i>italic text</i>Normal text</h2><b>Bold text</b>Normal text<i>italic text</i>Normal text<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p></h3>")
 if __name__ == "__main__":
     unittest.main()
