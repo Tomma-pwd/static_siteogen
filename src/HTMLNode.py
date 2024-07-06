@@ -18,8 +18,9 @@ class HTMLNode:
     
     def props_to_html(self):
         display_text = ""
-        for k, v in self.props.items():
-            display_text = display_text + f' {k}="{v}"'
+        if self.props != None:
+            for k, v in self.props.items():
+                display_text = display_text + f' {k}="{v}"'
         return display_text
     
     def __repr__(self):
