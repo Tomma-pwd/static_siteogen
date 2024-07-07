@@ -17,13 +17,7 @@ class TextNode:
         return self.text == other.text and self.text_type == other.text_type and self.url == other.url 
     
     def __repr__(self):
-        display_text = "TextNode("
-        display_text = display_text + "'" + self.text + "'"
-        display_text = display_text + ", '" + self.text_type + "'"
-        if self.text != None:
-            display_text = display_text + ", '" + self.url + "'"
-        display_text = display_text + ")"
-        return display_text
+        return f'TextNode({self.text}, {self.text_type}, {self.url})'
 
     def text_node_to_html_node(text_node):
         if text_node is TextNode:
@@ -42,4 +36,3 @@ class TextNode:
             raise ValueError(f"Not supported text_type: {text_node.text_type}")
         else:
             raise TypeError("text_node is not of type TextNode")
-    
