@@ -1,5 +1,12 @@
 from textnode import TextNode
 from HTMLNode import HTMLNode, LeafNode, ParentNode
+from inline_markdown import (
+    split_nodes_delimiter,
+    extract_markdown_images,
+    extract_markdown_links,
+    split_nodes_link,
+    split_nodes_image,
+    text_to_textnodes)
 
 from inline_markdown import split_nodes_delimiter
 def main():
@@ -27,4 +34,9 @@ def main():
     new_nodes = split_nodes_delimiter([node], "`", TextNode.text_type_code)
     for obj in new_nodes:
         print(obj)
+    print("=============================")
+    nodes = text_to_textnodes(
+    "This is **text** with an *italic* word and a `code block` and an ![image](https://i.imgur.com/zjjcJKZ.png) and a [link](https://boot.dev)"
+    )
+    print(f"Test text_to_textnode: {nodes}")
 main()
